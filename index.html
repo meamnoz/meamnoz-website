@@ -92,7 +92,6 @@
             </div>
         </section>
         
-        <!-- INTERACTIVE FINDER SECTION -->
         <section id="interactive-finder" class="py-24 bg-white" data-aos="fade-up">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
@@ -141,38 +140,33 @@
             </div>
         </section>
         <section id="resume" class="py-24 bg-white" data-aos="fade-up">
-            <!-- Resume content remains the same -->
+            <!-- Resume content -->
         </section>
         <section class="py-24" data-aos="fade-up">
-            <!-- CTA content remains the same -->
+            <!-- CTA content -->
         </section>
     </main>
     <footer class="bg-primary text-white">
-        <!-- Footer content remains the same -->
+        <!-- Footer content -->
     </footer>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
-        
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
-
-        // Interactive Finder Script
         document.querySelectorAll('.challenge-option').forEach(option => {
             option.addEventListener('click', () => {
                 const targetId = option.dataset.target;
                 const targetElement = document.getElementById(targetId);
                 if (targetElement) {
                     targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    
-                    // Highlight effect
                     targetElement.classList.add('highlight');
                     setTimeout(() => {
                         targetElement.classList.remove('highlight');
-                    }, 2000); // Highlight for 2 seconds
+                    }, 2000);
                 }
             });
         });
