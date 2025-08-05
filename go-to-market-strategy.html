@@ -3,40 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service: Go-to-Market & Growth Strategy</title>
+    <meta name="description" content="Get a step-by-step, actionable roadmap for a successful product launch and rapid scaling in new markets. My Go-to-Market strategy service ensures faster ROI.">
+    <title>Service: Go-to-Market & Growth Strategy - Meysam Norouzi</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #F5F5F5; color: #212529; }
-        :root { 
-            --primary-color: #101C42; 
-            --accent-color: #C0A062; 
-        }
+        :root { --primary-color: #101C42; --accent-color: #C0A062; }
         .text-primary { color: var(--primary-color); }
         .text-accent { color: var(--accent-color); }
         .bg-primary { background-color: var(--primary-color); }
         .bg-accent { background-color: var(--accent-color); }
         .hover\:bg-accent-dark:hover { background-color: #A98B54; }
         .nav-link { position: relative; transition: color 0.3s ease; }
-        .nav-link::after {
-            content: ''; position: absolute; width: 0; height: 2px;
-            bottom: -4px; left: 50%; transform: translateX(-50%);
-            background-color: var(--accent-color); transition: width 0.3s ease;
-        }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: var(--accent-color); transition: width 0.3s ease; }
         .nav-link:hover { color: var(--primary-color); }
         .nav-link:hover::after { width: 100%; }
     </style>
 </head>
 <body class="antialiased">
-
-    <!-- Header -->
     <header class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="flex items-center space-x-3">
-                 <img src="https://i.imgur.com/kY8y5oP.png" alt="Logo" class="h-8 w-auto">
+                 <img src="assets/images/logo.png" alt="Meysam Norouzi Logo" class="h-8 w-auto">
                  <span class="text-xl font-bold text-primary">Meysam Norouzi</span>
             </a>
             <ul class="hidden md:flex items-center space-x-8">
@@ -60,10 +54,7 @@
             <a href="contact.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-50">Contact Me</a>
         </div>
     </header>
-
-    <!-- Main Content -->
     <main>
-        <!-- Service Header Section -->
         <section class="bg-white py-20">
             <div class="container mx-auto px-6 text-center">
                 <p class="text-accent font-semibold mb-2">Phase 3: Market Execution & Growth</p>
@@ -75,12 +66,9 @@
                 </p>
             </div>
         </section>
-
-        <!-- Service Details Section -->
         <section class="py-24" data-aos="fade-up">
             <div class="container mx-auto px-6">
                 <div class="grid lg:grid-cols-3 gap-12">
-                    <!-- Left Column: Deliverables & Benefits -->
                     <div class="lg:col-span-2">
                         <h2 class="text-3xl font-bold text-primary mb-6">What You Will Receive</h2>
                         <div class="space-y-8">
@@ -97,7 +85,6 @@
                                 <p class="text-gray-600">A practical, month-by-month plan with clear KPIs, activities, and budget allocation to guide your team's execution and ensure accountability.</p>
                             </div>
                         </div>
-
                         <h2 class="text-3xl font-bold text-primary mt-16 mb-6">Key Benefits & ROI</h2>
                          <ul class="space-y-4">
                             <li class="flex items-start">
@@ -123,8 +110,6 @@
                             </li>
                         </ul>
                     </div>
-
-                    <!-- Right Column: Case Study -->
                     <div class="lg:sticky top-28 h-fit">
                         <div class="bg-white border border-gray-200 p-8 rounded-lg shadow-md">
                             <h3 class="text-2xl font-bold text-primary mb-4">Proof of Expertise</h3>
@@ -139,8 +124,6 @@
             </div>
         </section>
     </main>
-
-    <!-- Footer -->
     <footer class="bg-primary text-white">
         <div class="container mx-auto px-6 py-12">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -153,7 +136,6 @@
             </div>
         </div>
     </footer>
-
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
@@ -163,6 +145,5 @@
             mobileMenu.classList.toggle('hidden');
         });
     </script>
-
 </body>
 </html>
