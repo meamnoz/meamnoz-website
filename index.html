@@ -31,7 +31,7 @@
         .nav-link:hover { color: var(--primary-color); }
         .nav-link:hover::after { width: 100%; }
         .hero-bg-shape { position: absolute; top: -10%; right: -15%; width: 60%; height: 110%; background: linear-gradient(45deg, rgba(255,255,255,0.1), #E9ECEF); clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%); z-index: 0; opacity: 0.5; }
-        .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .service-card:hover, .project-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
         .timeline-item { transition: background-color 0.3s ease; border-radius: 0.5rem; padding: 1rem; margin-left: -1rem; }
         .timeline-item .timeline-dot { position: absolute; left: -29px; top: 21px; height: 10px; width: 10px; border-radius: 50%; background-color: var(--accent-color); }
         .timeline-item:hover { background-color: #ffffff; }
@@ -49,6 +49,7 @@
             </a>
             <ul class="hidden md:flex items-center space-x-8">
                 <li><a href="#services" class="nav-link text-gray-600 font-medium">Services</a></li>
+                <li><a href="portfolio.html" class="nav-link text-gray-600 font-medium">Projects</a></li>
                 <li><a href="#resume" class="nav-link text-gray-600 font-medium">Resume</a></li>
                 <li><a href="blog.html" class="nav-link text-gray-600 font-medium">Blog</a></li>
             </ul>
@@ -63,6 +64,7 @@
         </nav>
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
             <a href="#services" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-50">Services</a>
+            <a href="portfolio.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-50">Projects</a>
             <a href="#resume" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-50">Resume</a>
             <a href="blog.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-50">Blog</a>
             <a href="contact.html" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-50">Contact Me</a>
@@ -138,7 +140,41 @@
                 </div>
             </div>
         </section>
-        <section id="resume" class="py-24 bg-white" data-aos="fade-up">
+
+        <!-- NEW PORTFOLIO PREVIEW SECTION -->
+        <section id="portfolio-preview" class="py-24 bg-white" data-aos="fade-up">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-primary">Recent Projects</h2>
+                    <p class="text-gray-500 mt-2 max-w-3xl mx-auto">A glimpse into how I turn challenges into measurable success.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <a href="case-study.html" class="project-card block bg-white rounded-lg shadow-sm overflow-hidden">
+                        <img src="https://placehold.co/600x400/101C42/F5F5F5?text=Project+Image" alt="Cosmetics Brand Project" class="w-full h-56 object-cover">
+                        <div class="p-6">
+                            <p class="text-sm text-accent font-semibold mb-2">Cosmetics Industry</p>
+                            <h3 class="text-2xl font-bold text-primary mb-2">AI-Driven CRM & Sales Strategy</h3>
+                            <p class="text-gray-600 text-sm">How we reduced customer churn by 90% and increased sales value by 20% in a volatile market.</p>
+                        </div>
+                    </a>
+                    <a href="case-study.html" class="project-card block bg-white rounded-lg shadow-sm overflow-hidden">
+                        <img src="https://placehold.co/600x400/C0A062/FFFFFF?text=Project+Image" alt="Industrial Goods Project" class="w-full h-56 object-cover">
+                        <div class="p-6">
+                            <p class="text-sm text-accent font-semibold mb-2">Industrial Goods & Export</p>
+                            <h3 class="text-2xl font-bold text-primary mb-2">Supply Chain Optimization & Market Entry</h3>
+                            <p class="text-gray-600 text-sm">Leveraging AI to cut operational costs by 40% and achieve 30% initial sales growth.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="portfolio.html" class="bg-accent text-white px-8 py-3 rounded-lg font-semibold hover:bg-accent-dark transition-colors">
+                        View All Projects
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="resume" class="py-24" data-aos="fade-up">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-4xl font-bold text-primary">Professional Journey</h2>
