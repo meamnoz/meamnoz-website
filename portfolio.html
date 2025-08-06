@@ -98,61 +98,62 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@sanity/client@3.3.0/dist/index.browser.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
-        
-        // <<<=== FIX: Changed sanityClient to sanityClient.createClient
-        const client = sanityClient.createClient({
-            projectId: 'mbtd8b9d',
-            dataset: 'production',
-            useCdn: true,
-            apiVersion: '2024-08-06',
-        });
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({ duration: 800, once: true });
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+            
+            const client = sanityClient.createClient({
+                projectId: 'mbtd8b9d',
+                dataset: 'production',
+                useCdn: true,
+                apiVersion: '2024-08-06',
+            });
 
-        async function fetchProjects() {
-            const projectsContainer = document.getElementById('projects-container');
-            const query = `*[_type == "project"] {
-                title,
-                "slug": slug.current,
-                "imageUrl": mainImage.asset->url,
-                category,
-                summary
-            }`;
+            async function fetchProjects() {
+                const projectsContainer = document.getElementById('projects-container');
+                const query = `*[_type == "project"] {
+                    title,
+                    "slug": slug.current,
+                    "imageUrl": mainImage.asset->url,
+                    category,
+                    summary
+                }`;
 
-            try {
-                const projects = await client.fetch(query);
-                projectsContainer.innerHTML = '';
+                try {
+                    const projects = await client.fetch(query);
+                    projectsContainer.innerHTML = '';
 
-                if (projects.length === 0) {
-                    projectsContainer.innerHTML = '<p class="text-center col-span-full text-gray-600">No projects found. Please add some in your Sanity Studio.</p>';
-                    return;
+                    if (projects.length === 0) {
+                        projectsContainer.innerHTML = '<p class="text-center col-span-full text-gray-600">No projects found. Please add some in your Sanity Studio.</p>';
+                        return;
+                    }
+                    
+                    projects.forEach(project => {
+                        const projectCard = `
+                            <a href="case-study.html?slug=${project.slug}" class="project-card block bg-white rounded-lg shadow-sm overflow-hidden" data-aos="fade-up">
+                                <img src="${project.imageUrl}?w=600&h=400&fit=crop" alt="Image for ${project.title}" class="w-full h-56 object-cover">
+                                <div class="p-6">
+                                    <p class="text-sm text-accent font-semibold mb-2">${project.category || ''}</p>
+                                    <h3 class="text-2xl font-bold text-primary mb-2">${project.title}</h3>
+                                    <p class="text-gray-600 text-sm">${project.summary || ''}</p>
+                                </div>
+                            </a>
+                        `;
+                        projectsContainer.innerHTML += projectCard;
+                    });
+                    
+                    AOS.refresh();
+
+                } catch (error) {
+                    projectsContainer.innerHTML = '<p class="text-center col-span-full text-red-500">Error fetching projects. Please check your Sanity configuration and make sure CORS settings are correct.</p>';
+                    console.error('Error fetching projects:', error);
                 }
-                
-                projects.forEach(project => {
-                    const projectCard = `
-                        <a href="case-study.html?slug=${project.slug}" class="project-card block bg-white rounded-lg shadow-sm overflow-hidden" data-aos="fade-up">
-                            <img src="${project.imageUrl}?w=600&h=400&fit=crop" alt="Image for ${project.title}" class="w-full h-56 object-cover">
-                            <div class="p-6">
-                                <p class="text-sm text-accent font-semibold mb-2">${project.category || ''}</p>
-                                <h3 class="text-2xl font-bold text-primary mb-2">${project.title}</h3>
-                                <p class="text-gray-600 text-sm">${project.summary || ''}</p>
-                            </div>
-                        </a>
-                    `;
-                    projectsContainer.innerHTML += projectCard;
-                });
-                
-                AOS.refresh();
-
-            } catch (error) {
-                projectsContainer.innerHTML = '<p class="text-center col-span-full text-red-500">Error fetching projects. Please check your Sanity configuration and make sure CORS settings are correct.</p>';
-                console.error('Error fetching projects:', error);
             }
-        }
-        
-        fetchProjects();
+            
+            fetchProjects();
+        });
     </script>
 </body>
 </html>
