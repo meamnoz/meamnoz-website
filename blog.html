@@ -94,61 +94,68 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@sanity/client@3.3.0/dist/index.browser.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+        // This script runs after the page content is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({ duration: 800, once: true });
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
 
-        const client = sanityClient.createClient({
-            projectId: 'mbtd8b9d',
-            dataset: 'production',
-            useCdn: true, 
-            apiVersion: '2024-08-06',
-        });
+            // Initialize the Sanity client
+            const client = sanityClient.createClient({
+                projectId: 'mbtd8b9d',
+                dataset: 'production',
+                useCdn: true, 
+                apiVersion: '2024-08-06',
+            });
 
-        async function fetchPosts() {
-            const postsContainer = document.getElementById('posts-container');
-            const query = `*[_type == "post"] | order(publishedAt desc) {
-                title,
-                "slug": slug.current,
-                "imageUrl": mainImage.asset->url,
-                publishedAt,
-                category,
-                excerpt
-            }`;
+            // Function to fetch and display posts
+            async function fetchPosts() {
+                const postsContainer = document.getElementById('posts-container');
+                const query = `*[_type == "post"] | order(publishedAt desc) {
+                    title,
+                    "slug": slug.current,
+                    "imageUrl": mainImage.asset->url,
+                    publishedAt,
+                    category,
+                    excerpt
+                }`;
 
-            try {
-                const posts = await client.fetch(query);
-                postsContainer.innerHTML = ''; 
+                try {
+                    const posts = await client.fetch(query);
+                    postsContainer.innerHTML = ''; 
 
-                if (posts.length === 0) {
-                    postsContainer.innerHTML = '<p class="text-center col-span-full text-gray-600">No blog posts found. Please add some in your Sanity Studio.</p>';
-                    return;
+                    if (posts.length === 0) {
+                        postsContainer.innerHTML = '<p class="text-center col-span-full text-gray-600">No blog posts found. Please add some in your Sanity Studio.</p>';
+                        return;
+                    }
+
+                    posts.forEach(post => {
+                        const postCard = `
+                            <a href="sample-post.html?slug=${post.slug}" class="post-card block bg-white rounded-lg shadow-sm overflow-hidden" data-aos="fade-up">
+                                <img src="${post.imageUrl}?w=600&h=400&fit=crop" alt="Image for ${post.title}" class="w-full h-48 object-cover">
+                                <div class="p-6">
+                                    <p class="text-sm text-gray-500 mb-2">${post.category || ''} • ${new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                    <h3 class="text-xl font-bold text-primary mb-2">${post.title}</h3>
+                                    <p class="text-gray-600 text-sm">${post.excerpt || ''}</p>
+                                </div>
+                            </a>
+                        `;
+                        postsContainer.innerHTML += postCard;
+                    });
+                    
+                    // Re-initialize AOS after adding new elements
+                    AOS.refresh();
+
+                } catch (error) {
+                    postsContainer.innerHTML = '<p class="text-center col-span-full text-red-500">Error fetching posts. Please check your Sanity configuration and make sure CORS settings are correct.</p>';
+                    console.error('Error fetching posts:', error);
                 }
-
-                posts.forEach(post => {
-                    const postCard = `
-                        <a href="sample-post.html?slug=${post.slug}" class="post-card block bg-white rounded-lg shadow-sm overflow-hidden" data-aos="fade-up">
-                            <img src="${post.imageUrl}?w=600&h=400&fit=crop" alt="Image for ${post.title}" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <p class="text-sm text-gray-500 mb-2">${post.category || ''} • ${new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                <h3 class="text-xl font-bold text-primary mb-2">${post.title}</h3>
-                                <p class="text-gray-600 text-sm">${post.excerpt || ''}</p>
-                            </div>
-                        </a>
-                    `;
-                    postsContainer.innerHTML += postCard;
-                });
-                
-                AOS.refresh();
-
-            } catch (error) {
-                postsContainer.innerHTML = '<p class="text-center col-span-full text-red-500">Error fetching posts. Please check your Sanity configuration and make sure CORS settings are correct.</p>';
-                console.error('Error fetching posts:', error);
             }
-        }
-        
-        fetchPosts();
+            
+            // Run the function
+            fetchPosts();
+        });
     </script>
 </body>
 </html>
