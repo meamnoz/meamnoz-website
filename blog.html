@@ -99,7 +99,8 @@
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
 
-        const client = sanityClient.createClient({
+        // <<<=== FIX: Changed sanityClient to SanityClient (uppercase S)
+        const client = SanityClient.createClient({
             projectId: 'mbtd8b9d',
             dataset: 'production',
             useCdn: true, 
