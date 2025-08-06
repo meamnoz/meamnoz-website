@@ -26,6 +26,8 @@
         .nav-link:hover::after { width: 100%; }
         .post-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .post-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary-color); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 50px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="antialiased">
@@ -71,31 +73,10 @@
         </section>
         <section class="py-24">
             <div class="container mx-auto px-6">
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <a href="sample-post.html" class="post-card block bg-white rounded-lg shadow-sm overflow-hidden" data-aos="fade-up">
-                        <img src="https://placehold.co/600x400/101C42/F5F5F5?text=Article+Image" alt="Abstract image representing AI and data analysis" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <p class="text-sm text-gray-500 mb-2">Market Analysis • Aug 05, 2025</p>
-                            <h3 class="text-xl font-bold text-primary mb-2">How AI is Revolutionizing Feasibility Studies</h3>
-                            <p class="text-gray-600 text-sm">Discover the tools and techniques that leverage AI to provide deeper, faster insights into new markets...</p>
-                        </div>
-                    </a>
-                    <a href="sample-post.html" class="post-card block bg-white rounded-lg shadow-sm overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-                        <img src="https://placehold.co/600x400/C0A062/FFFFFF?text=Article+Image" alt="Image of a crossroads, representing strategic decisions" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <p class="text-sm text-gray-500 mb-2">Strategy • Jul 21, 2025</p>
-                            <h3 class="text-xl font-bold text-primary mb-2">The Top 5 Mistakes to Avoid When Entering a New Country</h3>
-                            <p class="text-gray-600 text-sm">Learn from common pitfalls that can derail your international expansion before it even begins...</p>
-                        </div>
-                    </a>
-                    <a href="sample-post.html" class="post-card block bg-white rounded-lg shadow-sm overflow-hidden" data-aos="fade-up" data-aos-delay="200">
-                        <img src="https://placehold.co/600x400/212529/F5F5F5?text=Article+Image" alt="Image of a chess board, symbolizing competitive strategy" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <p class="text-sm text-gray-500 mb-2">Business Growth • Jul 15, 2025</p>
-                            <h3 class="text-xl font-bold text-primary mb-2">Beyond Spreadsheets: Building a Competitive Landscape Map</h3>
-                            <p class="text-gray-600 text-sm">A step-by-step guide to visualizing your competition and finding your unique market position...</p>
-                        </div>
-                    </a>
+                <!-- محتوای داینامیک اینجا قرار می‌گیرد -->
+                <div id="posts-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Loading spinner -->
+                    <div class="loader col-span-full"></div>
                 </div>
             </div>
         </section>
@@ -113,13 +94,68 @@
         </div>
     </footer>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Sanity Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@sanity/client@3.3.0/dist/index.browser.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
+
+        // Mobile Menu Toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
+
+        const client = sanityClient.createClient({
+            projectId: 'mbtd8b9d', // Project ID نهایی شما
+            dataset: 'production',
+            useCdn: true, 
+            apiVersion: '2024-08-06',
+        });
+
+        async function fetchPosts() {
+            const postsContainer = document.getElementById('posts-container');
+            const query = `*[_type == "post"] | order(publishedAt desc) {
+                title,
+                "slug": slug.current,
+                "imageUrl": mainImage.asset->url,
+                publishedAt,
+                category,
+                excerpt
+            }`;
+
+            try {
+                const posts = await client.fetch(query);
+                postsContainer.innerHTML = ''; 
+
+                if (posts.length === 0) {
+                    postsContainer.innerHTML = '<p class="text-center col-span-full text-gray-600">No blog posts found. Please add some in your Sanity Studio.</p>';
+                    return;
+                }
+
+                posts.forEach(post => {
+                    const postCard = `
+                        <a href="sample-post.html?slug=${post.slug}" class="post-card block bg-white rounded-lg shadow-sm overflow-hidden" data-aos="fade-up">
+                            <img src="${post.imageUrl}?w=600&h=400&fit=crop" alt="Image for ${post.title}" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <p class="text-sm text-gray-500 mb-2">${post.category || ''} • ${new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                <h3 class="text-xl font-bold text-primary mb-2">${post.title}</h3>
+                                <p class="text-gray-600 text-sm">${post.excerpt || ''}</p>
+                            </div>
+                        </a>
+                    `;
+                    postsContainer.innerHTML += postCard;
+                });
+                
+                AOS.refresh();
+
+            } catch (error) {
+                postsContainer.innerHTML = '<p class="text-center col-span-full text-red-500">Error fetching posts. Please check your Sanity configuration and make sure CORS settings are correct.</p>';
+                console.error('Error fetching posts:', error);
+            }
+        }
+        
+        fetchPosts();
     </script>
 </body>
 </html>
