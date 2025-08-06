@@ -73,9 +73,7 @@
         </section>
         <section class="py-24">
             <div class="container mx-auto px-6">
-                <!-- محتوای داینامیک اینجا قرار می‌گیرد -->
                 <div id="posts-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Loading spinner -->
                     <div class="loader col-span-full"></div>
                 </div>
             </div>
@@ -94,20 +92,15 @@
         </div>
     </footer>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <!-- Sanity Client -->
     <script src="https://cdn.jsdelivr.net/npm/@sanity/client@3.3.0/dist/index.browser.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
-
-        // Mobile Menu Toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
 
         const client = sanityClient.createClient({
-            projectId: 'mbtd8b9d', // Project ID نهایی شما
+            projectId: 'mbtd8b9d',
             dataset: 'production',
             useCdn: true, 
             apiVersion: '2024-08-06',
